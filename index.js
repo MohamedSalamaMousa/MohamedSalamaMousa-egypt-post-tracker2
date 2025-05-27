@@ -15,6 +15,7 @@ app.get('/track', async (req, res) => {
       args: chromium.args,
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
+      ignoreHTTPSErrors: true,
     });
 
     const page = await browser.newPage();
@@ -32,7 +33,7 @@ app.get('/track', async (req, res) => {
     await browser.close();
     res.send(content);
   } catch (error) {
-    console.error('Scraping error:', error.message);
+    console.error('Scraping error:', error);
     res.status(500).send('Error: ' + error.message);
   }
 });
