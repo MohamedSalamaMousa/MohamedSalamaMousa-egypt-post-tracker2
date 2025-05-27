@@ -11,12 +11,15 @@ app.get('/track', async (req, res) => {
   const url = `https://egyptpost.gov.eg/ar-eg/TrackTrace/GetShipmentDetails?barcode=${barcode}`;
 
   try {
+
     const browser = await puppeteer.launch({
-      args: chromium.args,
+      args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
       executablePath: await chromium.executablePath(),
       headless: chromium.headless,
       ignoreHTTPSErrors: true,
+      timeout: 60000,
     });
+   
 
     const page = await browser.newPage();
     await page.setUserAgent(
