@@ -2,9 +2,12 @@
   "name": "egypt-post-tracker",
   "version": "1.0.0",
   "main": "index.js",
+
   "scripts": {
-    "start": "node index.js"
-  },
+  "start": "node index.js",
+  "postinstall": "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true echo 'Skip Chromium download'"
+}
+
   "engines": {
     "node": "18.x"
   },
