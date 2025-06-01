@@ -1,7 +1,7 @@
-# Use an official Node.js base image
+# استخدم صورة خفيفة من Node.js
 FROM node:18-slim
 
-# Install dependencies required for Puppeteer to run
+# تثبيت المتطلبات اللازمة لتشغيل Puppeteer في بيئة خالية من الرأس (Headless)
 RUN apt-get update && apt-get install -y \
     wget \
     ca-certificates \
@@ -24,23 +24,23 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Set the working directory
+# تحديد مجلد العمل داخل الحاوية
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# نسخ ملفات المشروع الأساسية
 COPY package*.json ./
 
-# Prevent Puppeteer from downloading Chromium (we'll use system's Chromium)
+# منع تحميل Chromium تلقائيًا من Puppeteer (سنستخدم النسخة المثبتة على النظام)
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
-# Install Node.js dependencies
-RUN npm ci
+# تثبيت الحزم باستخدام npm install بدلًا من ci
+RUN npm install
 
-# Copy the rest of the application files
+# نسخ باقي ملفات المشروع
 COPY . .
 
-# Expose the port your app runs on
+# فتح المنفذ 3000
 EXPOSE 3000
 
-# Start the app
+# الأمر الذي يتم تنفيذه لتشغيل التطبيق
 CMD ["npm", "start"]
